@@ -47,11 +47,6 @@ def login_page_task(lgpage):
     MainWindow.show()
     sys.exit(app.exec_())
     
-
-    
-def openRegisterPage():
-    pass
-    
 if __name__ == "__main__":
     
     print("Program started ... ")

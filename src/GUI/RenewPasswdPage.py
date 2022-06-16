@@ -9,6 +9,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDateTime, Qt, QTimer
 
+import json
+
+file_name = "logs/users.json"
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -77,10 +82,10 @@ class Ui_MainWindow(object):
         self.toolButton.setGeometry(QtCore.QRect(570, 220, 31, 21))
         self.toolButton.setObjectName("toolButton")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(300, 260, 291, 16))
+        self.label_2.setGeometry(QtCore.QRect(150, 260, 291, 16))
         font = QtGui.QFont()
         font.setFamily("Microsoft Sans Serif")
-        font.setPointSize(16)
+        font.setPointSize(12)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -97,6 +102,8 @@ class Ui_MainWindow(object):
         
         self.initalize_timer()
         self.startTimer()
+        
+        self.toolButton.clicked.connect(self.check_user)
        
     def initalize_timer(self):
         self.timer = QTimer()
@@ -113,6 +120,25 @@ class Ui_MainWindow(object):
         time=QDateTime.currentDateTime()
         
         self.label.setText(time.toString())
+    
+    def check_user(self):
+        user = { "username":  str(self.lineEdit.text())}
+        try:
+            with open(file_name, 'r+') as f:
+                file_data = json.load(f)    # take the all data
+                for usrs in file_data["user_data"]:
+                    if user["username"] == usrs["Username"]:
+                        print("User exist")
+                        self.label_2.setText(str(usrs))
+                        self.label_2.adjustSize()
+                        return
+        except:
+            print("Error occured in saving user file")
+                        
+            
+        self.label_2.setText("No user found")
+        self.label_2.adjustSize()
+        
        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -12,7 +12,7 @@ from PyQt5.QtCore import QDateTime, Qt, QTimer
 
 import json
 
-file_name = "../../logs/users.json"
+file_name = "/logs/users.json"
 
 class Ui_MainWindow(object):
     

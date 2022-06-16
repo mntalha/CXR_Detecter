@@ -152,6 +152,9 @@ class Ui_MainWindow(object):
         self.rgspage = RegisterPage()
         self.renewpasswdpage = RenewPasswdPage ()
         
+        print(f"My current location")
+
+        
         self.initalize_timer()
         self.startTimer()
         self.setupconnections()
