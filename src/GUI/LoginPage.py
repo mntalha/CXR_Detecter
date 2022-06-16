@@ -12,6 +12,7 @@ from PyQt5.QtCore import QDateTime, Qt, QTimer
 
 #maini çalıştırıken bunu , burdan çalıştırırken altı
 from src.GUI.RegisterPage import Ui_MainWindow as RegisterPage
+from src.GUI.RenewPasswdPage import Ui_MainWindow as RenewPasswdPage
 
 #birbirlerine olan konumları önemli
 #from RegisterPage import Ui_MainWindow as RegisterPage
@@ -130,7 +131,7 @@ class Ui_MainWindow(object):
         self.version_text.setFont(font)
         self.version_text.setObjectName("version_text")
         self.label_time = QtWidgets.QLabel(self.centralwidget)
-        self.label_time.setGeometry(QtCore.QRect(600, 30, 300, 31))
+        self.label_time.setGeometry(QtCore.QRect(550, 30, 300, 31))
         font = QtGui.QFont()
         font.setFamily("Microsoft Sans Serif")
         font.setPointSize(15)
@@ -149,7 +150,8 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         
         self.rgspage = RegisterPage()
-
+        self.renewpasswdpage = RenewPasswdPage ()
+        
         self.initalize_timer()
         self.startTimer()
         self.setupconnections()
@@ -167,10 +169,12 @@ class Ui_MainWindow(object):
 
     def showTime(self):
         time=QDateTime.currentDateTime()
-        self.label_time.setText(time.toString(Qt.ISODate))
+        self.label_time.setText(time.toString())
         
     def setupconnections(self):
         self.pushButton_Register.clicked.connect(self.openRegisterPage)
+        self.pushButton_Renew.clicked.connect(self.openRenewPasswdPage)
+
         
     def openRegisterPage(self):
         self.stopTimer()
@@ -185,6 +189,11 @@ class Ui_MainWindow(object):
         self.setupUi(self.MainWindow)
         self.MainWindow.show()
 
+    def openRenewPasswdPage(self):
+        self.stopTimer()
+        self.renewpasswdpage.setupUi(self.MainWindow)
+        self.renewpasswdpage.ReturnButton.clicked.connect(self.openLoginPage)
+        self.MainWindow.show()
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

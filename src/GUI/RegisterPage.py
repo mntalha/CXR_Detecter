@@ -98,7 +98,7 @@ class Ui_MainWindow(object):
         self.ReturnButton.setGeometry(QtCore.QRect(340, 380, 101, 23))
         self.ReturnButton.setObjectName("ReturnButton")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(600, 30, 300, 31))
+        self.label.setGeometry(QtCore.QRect(550, 30, 300, 31))
         font = QtGui.QFont()
         font.setFamily("Microsoft Sans Serif")
         font.setPointSize(15)
@@ -136,7 +136,7 @@ class Ui_MainWindow(object):
 
     def showTime(self):
           time=QDateTime.currentDateTime()
-          self.label.setText(time.toString(Qt.ISODate))
+          self.label.setText(time.toString())
 
         
     def retranslateUi(self, MainWindow):
