@@ -9,10 +9,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDateTime, Qt, QTimer
 
+from PyQt5.QtWidgets import QMessageBox,QMainWindow
 import json
 
 file_name = "logs/users.json"
 
+
+# Define class to to display an informational message
+class MessageWindow(QMessageBox):
+    def __init__(self):        # Call the parent constructor
+        super().__init__()
+        self.about(self, "Title", "Message")
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -104,6 +111,11 @@ class Ui_MainWindow(object):
         self.startTimer()
         
         self.toolButton.clicked.connect(self.check_user)
+        self.saveButton.clicked.connect(self.save_valid_user)
+        
+
+        print("MessageBox is created")
+
        
     def initalize_timer(self):
         self.timer = QTimer()
@@ -123,6 +135,7 @@ class Ui_MainWindow(object):
     
     def check_user(self):
         user = { "username":  str(self.lineEdit.text())}
+        
         try:
             with open(file_name, 'r+') as f:
                 file_data = json.load(f)    # take the all data
@@ -131,14 +144,53 @@ class Ui_MainWindow(object):
                         print("User exist")
                         self.label_2.setText(str(usrs))
                         self.label_2.adjustSize()
+                        f.close()
                         return
         except:
             print("Error occured in saving user file")
                         
-            
         self.label_2.setText("No user found")
-        self.label_2.adjustSize()
+    
+    def show_info_messagebox():
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+  
+        # setting message for Message Box
+        msg.setText("Saved ... ")
+      
+        # setting Message box window title
+        msg.setWindowTitle("User Data")
+      
+        # declaring buttons on Message Box
+        msg.setStandardButtons(QMessageBox.Ok)
+      
+        # start the app
+        retval = msg.exec_()
+    
+    def save_valid_user(self):
+        user = { "username":  str(self.lineEdit.text()),
+                "Password" : str(self.lineEdit_2.text())
+                }
         
+        try:
+            with open(file_name, 'r+') as f:
+                file_data = json.load(f)    # take the all data
+                
+                for usrs in file_data["user_data"]:
+                    if user["username"] == usrs["Username"]:
+                        print("User exist")
+                        if  user["Password"] != "":
+                            usrs["Password"] = user["Password"]
+                            f.seek(0)
+                            json.dump(file_data, f, indent = 3)
+                            self.show_info_messagebox()
+                            break
+                f.close()
+                
+        except:
+            print("Error occured in saving user file")
+                        
+
        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

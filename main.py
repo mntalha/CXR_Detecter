@@ -55,4 +55,4 @@ if __name__ == "__main__":
     login_page = threading.Thread(target = login_page_task(lgpage))
     login_page.daemon = True
     login_page.start()
-    
+
